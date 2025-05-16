@@ -23,4 +23,6 @@ public abstract class Bank {
     }
 
     public abstract void openAccount(Account account);
+
+    public abstract void displayBankInfo(); // <-- Added for UC4
 }

@@ -25,7 +25,7 @@ public class BankApp {
 
         boolean running = true;
         while (running) {
-            System.out.println("\n1. Open Account\n2. Deposit\n3. Withdraw\n4. Exit");
+            System.out.println("\n1. Open Account\n2. Deposit\n3. Withdraw\n4. Display Bank & Account Details\n5. Exit");
             int choice = sc.nextInt();
 
             switch (choice) {
@@ -39,6 +39,9 @@ public class BankApp {
                     performWithdraw(bank);
                     break;
                 case 4:
+                    bank.displayBankInfo();
+                    break;
+                case 5:
                     running = false;
                     break;
                 default:
