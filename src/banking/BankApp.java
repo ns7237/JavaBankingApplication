@@ -1,6 +1,6 @@
 package banking;
 
-import java.util.Scanner;
+import java.util.*;
 
 public class BankApp {
     private static Scanner sc = new Scanner(System.in);
@@ -23,8 +23,25 @@ public class BankApp {
             bank = new CooperativeBank(bankName, branchName);
         }
 
-        System.out.println("\n--- Open an Account ---");
-        openAccount(bank);
+        boolean running = true;
+        while (running) {
+            System.out.println("\n1. Open Account\n2. Deposit\n3. Exit");
+            int choice = sc.nextInt();
+
+            switch (choice) {
+                case 1:
+                    openAccount(bank);
+                    break;
+                case 2:
+                    performDeposit(bank);
+                    break;
+                case 3:
+                    running = false;
+                    break;
+                default:
+                    System.out.println("Invalid option.");
+            }
+        }
     }
 
     private static void openAccount(Bank bank) {
@@ -57,5 +74,35 @@ public class BankApp {
 
         bank.openAccount(account);
         System.out.println("Account Number: " + accNum);
+    }
+
+    private static void performDeposit(Bank bank) {
+        sc.nextLine(); // clear buffer
+        System.out.print("Enter Branch Name: ");
+        String branchName = sc.nextLine();
+
+        System.out.print("Enter Account Number: ");
+        String accNum = sc.nextLine();
+
+        System.out.print("Enter Amount to Deposit: ");
+        double amount = sc.nextDouble();
+
+        List<Account> accounts = getAccountsByBranch(bank, branchName);
+        for (Account acc : accounts) {
+            if (acc.accountNumber.equals(accNum)) {
+                acc.deposit(amount);
+                return;
+            }
+        }
+        System.out.println("Account not found in branch: " + branchName);
+    }
+
+    private static List<Account> getAccountsByBranch(Bank bank, String branchName) {
+        if (bank instanceof NationalizedBank) {
+            return ((NationalizedBank) bank).getAccountsByBranch(branchName);
+        } else if (bank instanceof CooperativeBank) {
+            return ((CooperativeBank) bank).getAccountsByBranch(branchName);
+        }
+        return new ArrayList<>();
     }
 }

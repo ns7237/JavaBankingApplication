@@ -15,4 +15,8 @@ public class NationalizedBank extends Bank {
         branchAccounts.get(branchName).add(account);
         System.out.println("Account opened successfully in Nationalized Bank, Branch: " + branchName);
     }
+
+    public List<Account> getAccountsByBranch(String branch) {
+        return branchAccounts.getOrDefault(branch, new ArrayList<>());
+    }
 }

@@ -1,4 +1,5 @@
 package banking;
+
 public abstract class Account {
     protected String accountNumber;
     protected String holderName;
@@ -11,4 +12,13 @@ public abstract class Account {
     }
 
     public abstract void showAccountType();
+
+    public void deposit(double amount) {
+        balance += amount;
+        System.out.println("Amount deposited successfully. New balance: ₹" + balance);
+    }
+
+    public double getBalance() {
+        return balance;
+    }
 }
