@@ -25,7 +25,7 @@ public class BankApp {
 
         boolean running = true;
         while (running) {
-            System.out.println("\n1. Open Account\n2. Deposit\n3. Exit");
+            System.out.println("\n1. Open Account\n2. Deposit\n3. Withdraw\n4. Exit");
             int choice = sc.nextInt();
 
             switch (choice) {
@@ -36,6 +36,9 @@ public class BankApp {
                     performDeposit(bank);
                     break;
                 case 3:
+                    performWithdraw(bank);
+                    break;
+                case 4:
                     running = false;
                     break;
                 default:
@@ -77,13 +80,11 @@ public class BankApp {
     }
 
     private static void performDeposit(Bank bank) {
-        sc.nextLine(); // clear buffer
+        sc.nextLine();
         System.out.print("Enter Branch Name: ");
         String branchName = sc.nextLine();
-
         System.out.print("Enter Account Number: ");
         String accNum = sc.nextLine();
-
         System.out.print("Enter Amount to Deposit: ");
         double amount = sc.nextDouble();
 
@@ -95,6 +96,25 @@ public class BankApp {
             }
         }
         System.out.println("Account not found in branch: " + branchName);
+    }
+
+    private static void performWithdraw(Bank bank) {
+        sc.nextLine();
+        System.out.print("Enter Branch Name: ");
+        String branchName = sc.nextLine();
+        System.out.print("Enter Account Number: ");
+        String accNum = sc.nextLine();
+        System.out.print("Enter Amount to Withdraw: ");
+        double amount = sc.nextDouble();
+
+        List<Account> accounts = getAccountsByBranch(bank, branchName);
+        for (Account acc : accounts) {
+            if (acc.accountNumber.equals(accNum) && acc instanceof AccountOperations) {
+                ((AccountOperations) acc).withdraw(amount);
+                return;
+            }
+        }
+        System.out.println("Account not found or invalid account type.");
     }
 
     private static List<Account> getAccountsByBranch(Bank bank, String branchName) {
